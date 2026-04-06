@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backtest Result</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Backtest Result</h1>
+
+    <div class="result-box">
+      <p><strong>Stock:</strong> <%= result.symbol %></p>
+      <p><strong>Strategy:</strong> <%= result.strategy %></p>
+      <p><strong>Start Date:</strong> <%= result.startDate %></p>
+      <p><strong>End Date:</strong> <%= result.endDate %></p>
+      <p><strong>Initial Capital:</strong> <%= result.results.initialCapital %></p>
+      <p><strong>Final Portfolio Value:</strong> <%= result.results.finalPortfolioValue %></p>
+    </div>
+
+    <h2>Trades</h2>
+
+    <% if (result.results.trades.length === 0) { %>
+      <p>No trades generated.</p>
+    <% } else { %>
+      <% result.results.trades.forEach(trade => { %>
+        <div class="trade-item">
+          <p><strong>Type:</strong> <%= trade.type %></p>
+          <p><strong>Date:</strong> <%= trade.date %></p>
+          <p><strong>Price:</strong> <%= trade.price %></p>
+          <p><strong>Quantity:</strong> <%= trade.quantity %></p>
+
+          <% if (trade.profitLoss !== undefined) { %>
+            <p><strong>P/L:</strong> <%= trade.profitLoss %></p>
+          <% } %>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <div style="margin-top: 20px;">
+      <a href="/">Run Another Backtest</a>
+    </div>
+  </div>
+</body>
+</html>

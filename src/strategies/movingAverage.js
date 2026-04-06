@@ -1,4 +1,3 @@
-
 const runMovingAverageStrategy = (priceData) => {
   const shortPeriod = 5;
   const longPeriod = 20;
@@ -12,22 +11,14 @@ const runMovingAverageStrategy = (priceData) => {
     return sum / (end - start + 1);
   };
 
+  let inPosition = false;
+
   for (let i = longPeriod - 1; i < priceData.length; i++) {
     const shortMA = getAverage(priceData, i - shortPeriod + 1, i);
     const longMA = getAverage(priceData, i - longPeriod + 1, i);
 
-    const prevShortMA =
-      i - 1 >= longPeriod - 1
-        ? getAverage(priceData, i - shortPeriod, i - 1)
-        : null;
-
-    const prevLongMA =
-      i - 1 >= longPeriod - 1
-        ? getAverage(priceData, i - longPeriod, i - 1)
-        : null;
-
-    if (prevShortMA !== null && prevLongMA !== null) {
-      if (prevShortMA <= prevLongMA && shortMA > longMA) {
+    if (i === longPeriod - 1) {
+      if (shortMA > longMA) {
         signals.push({
           date: priceData[i].date,
           price: priceData[i].close,
@@ -35,15 +26,32 @@ const runMovingAverageStrategy = (priceData) => {
           shortMA,
           longMA
         });
-      } else if (prevShortMA >= prevLongMA && shortMA < longMA) {
-        signals.push({
-          date: priceData[i].date,
-          price: priceData[i].close,
-          signal: "SELL",
-          shortMA,
-          longMA
-        });
+        inPosition = true;
       }
+      continue;
+    }
+
+    const prevShortMA = getAverage(priceData, i - shortPeriod, i - 1);
+    const prevLongMA = getAverage(priceData, i - longPeriod, i - 1);
+
+    if (!inPosition && prevShortMA <= prevLongMA && shortMA > longMA) {
+      signals.push({
+        date: priceData[i].date,
+        price: priceData[i].close,
+        signal: "BUY",
+        shortMA,
+        longMA
+      });
+      inPosition = true;
+    } else if (inPosition && prevShortMA >= prevLongMA && shortMA < longMA) {
+      signals.push({
+        date: priceData[i].date,
+        price: priceData[i].close,
+        signal: "SELL",
+        shortMA,
+        longMA
+      });
+      inPosition = false;
     }
   }
 
