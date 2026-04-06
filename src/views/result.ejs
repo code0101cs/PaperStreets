@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Backtest Result</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <div class="container">
@@ -17,6 +18,13 @@
       <p><strong>End Date:</strong> <%= result.endDate %></p>
       <p><strong>Initial Capital:</strong> <%= result.results.initialCapital %></p>
       <p><strong>Final Portfolio Value:</strong> <%= result.results.finalPortfolioValue %></p>
+    </div>
+
+    <div class="chart-box">
+      <h2>Price Chart</h2>
+      <div class="chart-container">
+        <canvas id="priceChart"></canvas>
+      </div>
     </div>
 
     <h2>Trades</h2>
@@ -42,5 +50,74 @@
       <a href="/">Run Another Backtest</a>
     </div>
   </div>
+
+  <script>
+  const priceData = <%- JSON.stringify(result.priceData || []) %>;
+  const signals = <%- JSON.stringify(result.signals || []) %>;
+
+  const labels = priceData.map(item => item.date);
+  const closePrices = priceData.map(item => Number(item.close));
+
+  // 👉 ADD HERE
+  console.log("priceData:", priceData);
+  console.log("signals:", signals);
+  console.log("labels:", labels);
+  console.log("closePrices:", closePrices);
+
+  if (priceData.length > 0) {
+    const buyPoints = priceData.map(item => {
+      const found = signals.find(signal => signal.date === item.date && signal.signal === "BUY");
+      return found ? item.close : null;
+    });
+
+    const sellPoints = priceData.map(item => {
+      const found = signals.find(signal => signal.date === item.date && signal.signal === "SELL");
+      return found ? item.close : null;
+    });
+
+    const ctx = document.getElementById("priceChart").getContext("2d");
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Close Price",
+            data: closePrices,
+            borderColor: "blue",
+            backgroundColor: "transparent"
+          },
+          
+           {
+  label: "BUY",
+  data: buyPoints,
+  borderColor: "green",
+  backgroundColor: "green",
+  pointRadius: 6,
+  pointHoverRadius: 8,
+  showLine: false
+
+          },
+          {
+            
+  label: "SELL",
+  data: sellPoints,
+  borderColor: "red",
+  backgroundColor: "red",
+  pointRadius: 6,
+  pointHoverRadius: 8,
+  showLine: false
+}
+          
+        ]
+      }
+    });
+  }
+</script>
+<a href="/history">View Past Backtests</a>
+<a href="/logout">Logout</a>
+<a href="/dashboard">Back to Dashboard</a>
+
 </body>
 </html>

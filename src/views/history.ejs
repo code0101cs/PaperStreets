@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backtest History</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Backtest History</h1>
+
+    <% if (backtests.length === 0) { %>
+      <p>No past backtests found.</p>
+    <% } else { %>
+      <% backtests.forEach(backtest => { %>
+        <div class="trade-item">
+          <p><strong>Stock:</strong> <%= backtest.symbol %></p>
+          <p><strong>Strategy:</strong> <%= backtest.strategy %></p>
+          <p><strong>Start:</strong> <%= backtest.startDate %></p>
+          <p><strong>End:</strong> <%= backtest.endDate %></p>
+          <p><strong>Capital:</strong> <%= backtest.capital %></p>
+          <p><strong>Final Portfolio:</strong> <%= backtest.finalPortfolioValue %></p>
+          <p><strong>Total Trades:</strong> <%= backtest.trades.length %></p>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <div style="margin-top: 20px;">
+      <a href="/">Back to Dashboard</a>
+    </div>
+  </div>
+</body>
+</html>

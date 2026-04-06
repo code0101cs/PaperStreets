@@ -2,6 +2,7 @@ const { getMarketData } = require("../services/marketDataService");
 const { runMovingAverageStrategy } = require("../strategies/movingAverage");
 const { runBuyHoldStrategy } = require("../strategies/buyHoldStrategy");
 const { runBacktestEngine } = require("../services/backtestService");
+const Backtest = require("../models/backtest");
 
 const runBacktest = async (req, res) => {
   try {
@@ -19,6 +20,17 @@ const runBacktest = async (req, res) => {
 
     const results = runBacktestEngine(priceData, signals, capital);
 
+    await Backtest.create({
+      user: req.session.user.id,
+      symbol,
+      startDate,
+      endDate,
+      capital: Number(capital),
+      strategy,
+      finalPortfolioValue: results.finalPortfolioValue,
+      trades: results.trades
+    });
+
     res.render("result", {
       result: {
         symbol,
@@ -27,7 +39,8 @@ const runBacktest = async (req, res) => {
         capital,
         strategy,
         signals,
-        results
+        results,
+        priceData
       }
     });
   } catch (error) {
