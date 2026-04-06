@@ -1,5 +1,5 @@
 const getMarketData = async (symbol, startDate, endDate) => {
-  return [
+  const dummyData = [
     { date: "2024-01-01", close: 100 },
     { date: "2024-01-02", close: 101 },
     { date: "2024-01-03", close: 102 },
@@ -31,6 +31,8 @@ const getMarketData = async (symbol, startDate, endDate) => {
     { date: "2024-01-29", close: 124 },
     { date: "2024-01-30", close: 128 }
   ];
+
+  return dummyData.filter(item => item.date >= startDate && item.date <= endDate);
 };
 
 module.exports = { getMarketData };
