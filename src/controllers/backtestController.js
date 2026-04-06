@@ -4,36 +4,29 @@ const { runBuyHoldStrategy } = require("../strategies/buyHoldStrategy");
 const { runBacktestEngine } = require("../services/backtestService");
 
 const runBacktest = async (req, res) => {
-  try {
-    const { symbol, startDate, endDate, capital, strategy } = req.body;
+  const { symbol, startDate, endDate, capital, strategy } = req.body;
 
-    const priceData = await getMarketData(symbol, startDate, endDate);
+  const priceData = await getMarketData(symbol, startDate, endDate);
 
-    let signals = [];
+  let signals = [];
 
-    if (strategy === "moving-average") {
-      signals = runMovingAverageStrategy(priceData);
-    } else if (strategy === "buy-hold") {
-      signals = runBuyHoldStrategy(priceData);
-    }
+  if (strategy === "moving-average") {
+    signals = runMovingAverageStrategy(priceData);
+  } else if (strategy === "buy-hold") {
+    signals = runBuyHoldStrategy(priceData);
+  }
 
     const results = runBacktestEngine(priceData, signals, capital);
 
-    res.render("dashboard", {
-      result: {
-        symbol,
-        startDate,
-        endDate,
-        capital,
-        strategy,
-        signals,
-        results
-      }
-    });
-  } catch (error) {
-    console.log("Backtest Error:", error);
-    res.send("Something went wrong");
-  }
+  res.json({
+    symbol,
+    startDate,
+    endDate,
+    capital,
+    strategy,
+    signals,
+    results
+  });
 };
 
 module.exports = { runBacktest };
