@@ -7,15 +7,17 @@
   <title>Paper Streets</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
+<body class="dark">
   <div class="container">
     <h1>Paper Streets</h1>
+    <button id="themeToggle" class="theme-toggle">Dark Mode</button>
     <p>Backtest your trading strategies</p>
 
-    <div style="margin-top: 20px;">
-      <a href="/signup"><button>Signup</button></a>
-      <a href="/login"><button>Login</button></a>
-    </div>
+    <div class="nav-actions" style="margin-top: 20px;">
+  <a href="/signup" class="btn btn-primary">Signup</a>
+  <a href="/login" class="btn btn-outline">Login</a>
+</div>
   </div>
+  <script src="/js/themeToggle.js"></script>
 </body>
 </html>

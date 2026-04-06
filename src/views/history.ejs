@@ -10,6 +10,7 @@
 <body>
   <div class="container">
     <h1>Backtest History</h1>
+    <button id="themeToggle" class="theme-toggle">Dark Mode</button>
 
     <% if (backtests.length === 0) { %>
       <p>No past backtests found.</p>
@@ -28,8 +29,9 @@
     <% } %>
 
     <div style="margin-top: 20px;">
-      <a href="/">Back to Dashboard</a>
+      <a href="/dashboard">Back to Dashboard</a>
     </div>
   </div>
+  <script src="/js/themeToggle.js"></script>
 </body>
 </html>

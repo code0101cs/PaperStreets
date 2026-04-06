@@ -6,9 +6,10 @@
   <title>Signup</title>
   <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body>
+<body class="dark">
   <div class="container">
     <h1>Signup</h1>
+    <button id="themeToggle" class="theme-toggle">Dark Mode</button>
 
     <form action="/signup" method="POST" class="backtest-form">
       <input type="text" name="name" placeholder="Name" required />
@@ -19,5 +20,6 @@
 
     <p><a href="/login">Already have an account? Login</a></p>
   </div>
+  <script src="/js/themeToggle.js"></script>
 </body>
 </html>

@@ -3,29 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trading Backtester</title>
+  <title>Dashboard | Trading Backtester</title>
   <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="dark">
+  <button id="themeToggle" class="btn btn-outline theme-toggle">Switch to Light Mode</button>
+
   <div class="container">
-    <h1>Trading Backtester</h1>
+    <h1>New Backtest</h1>
 
     <form action="/backtest" method="POST" class="backtest-form">
-      <input type="text" name="symbol" placeholder="Stock Symbol" required />
-      <input type="date" name="startDate" required />
-      <input type="date" name="endDate" required />
-      <input type="number" name="capital" placeholder="Capital" required />
+      <div class="form-group">
+          <label>Asset Identifier</label>
+          <input type="text" name="symbol" placeholder="e.g. BTC-USD, AAPL" required />
+      </div>
+      
+      <div style="display: flex; gap: 16px;">
+          <div class="form-group" style="flex: 1;">
+              <label>Start Date</label>
+              <input type="date" name="startDate" required />
+          </div>
+          <div class="form-group" style="flex: 1;">
+              <label>End Date</label>
+              <input type="date" name="endDate" required />
+          </div>
+      </div>
 
-      <select name="strategy" required>
-        <option value="">Select Strategy</option>
-        <option value="moving-average">Moving Average Crossover</option>
-        <option value="buy-hold">Buy and Hold</option>
-      </select>
+      <div class="form-group">
+          <label>Starting Liquidity (USD)</label>
+          <input type="number" name="capital" placeholder="10000" required />
+      </div>
 
-      <button type="submit">Run Backtest</button>
+      <div class="form-group">
+          <label>Algorithmic Strategy</label>
+          <select name="strategy" required>
+            <option value="">Choose a strategy...</option>
+            <option value="moving-average">Moving Average Crossover</option>
+            <option value="buy-hold">Buy and Hold</option>
+          </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Execute Backtest</button>
     </form>
+
+    <div class="nav-actions">
+        <a href="/history" class="btn btn-secondary">View Past Backtests</a>
+        <a href="/logout" class="btn btn-outline">Logout</a>
+    </div>
   </div>
-  <a href="/logout">Logout</a>
-  <a href="/history">View Past Backtests</a>
+  
+  <script src="/js/themeToggle.js"></script>
 </body>
 </html>

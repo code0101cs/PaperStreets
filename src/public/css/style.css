@@ -1,56 +1,191 @@
+:root {
+  --bg-color: #0f172a;
+  --container-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --accent-primary: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --input-bg: #0b1220;
+  --card-bg: #1e293b;
+  --btn-secondary-bg: #334155;
+  --btn-secondary-text: #f8fafc;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.light {
+  --bg-color: #f1f5f9;
+  --container-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #dbe3ee;
+  --accent-primary: #0284c7;
+  --accent-hover: #0369a1;
+  --input-bg: #ffffff;
+  --card-bg: #f8fafc;
+  --btn-secondary-bg: #e2e8f0;
+  --btn-secondary-text: #0f172a;
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+body.dark {
+  --bg-color: #0f172a;
+  --container-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --accent-primary: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --input-bg: #0b1220;
+  --card-bg: #1e293b;
+  --btn-secondary-bg: #334155;
+  --btn-secondary-text: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-primary);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .container {
-  width: 400px;
-  margin: 60px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 40px auto;
+  background: var(--container-bg);
+  padding: 40px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow);
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 25px;
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+p, label {
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+.theme-toggle {
+  margin-bottom: 20px;
+}
+
+.btn,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+}
+
+.btn-primary,
+button[type="submit"] {
+  background: var(--accent-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+button[type="submit"]:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+}
+
+.btn-secondary:hover {
+  filter: brightness(1.08);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background: var(--border-color);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .backtest-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
 input,
-select,
-button {
+select {
+  width: 100%;
   padding: 12px;
-  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  outline: none;
 }
 
-button {
-  background: #222;
-  color: white;
-  border: none;
-  cursor: pointer;
+input:focus,
+select:focus {
+  border-color: var(--accent-primary);
+}
+
+.result-box,
+.chart-box,
+.trade-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
 }
 
 .result-box {
-  margin-top: 30px;
-  padding: 20px;
-  background: #f9f9f9;
-  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 }
 
 .trade-item {
-  margin-top: 15px;
-  padding: 10px;
-  background: white;
-  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .chart-container {
@@ -59,7 +194,14 @@ button {
   height: 400px;
 }
 
-#priceChart {
-  width: 100% !important;
-  height: 100% !important;
+@media (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 24px;
+  }
+
+  .trade-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
