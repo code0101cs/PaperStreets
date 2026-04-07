@@ -114,7 +114,7 @@ backend/
     ├── strategies/
     │   ├── buyHoldStrategy.js
     │   └── movingAverage.js
-    ├── utils/
+    ├── util/
     │   └── calculations.js
     └── views/
         ├── dashboard.ejs
